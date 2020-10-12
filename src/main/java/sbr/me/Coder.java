@@ -77,9 +77,11 @@ public class Coder {
         this.salary = salary;
     }
 
-    @Override
-    public String toString() {
-        return "Coder [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", hireDate=" + hireDate
-                + ", salary=" + salary + "]";
-    }
+	@Override
+	public String toString() {
+		return String.format("Coder [id=%s, firstName=%s, lastName=%s, hireDate=%s, salary=%s]", id, firstName,
+				lastName, hireDate, salary);
+	}
+
+    
 }

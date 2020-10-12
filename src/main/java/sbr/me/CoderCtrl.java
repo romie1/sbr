@@ -56,7 +56,8 @@ public class CoderCtrl {
             return repo.save(newer);
         });
     }
-
+    
+    //aggiornamento parziale di collezione / risorsa
     @PatchMapping("/coders/{id}")
     public Coder partialUpdate(@RequestBody Coder newer, @PathVariable Long id) {
         LOG.trace(String.format("patch coder %d by %s", id, newer));
