@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * http://localhost:8081/coders
+ * http://localhost:8081/coders/103
+ * @author romie
+ *
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class CoderCtrl {
@@ -45,12 +50,14 @@ public class CoderCtrl {
     @PutMapping("/coders/{id}")
     public Coder update(@RequestBody Coder newer, @PathVariable Long id) {
         LOG.trace(String.format("update coder %d by %s", id, newer));
+        //trovami il coder per mezzo dell'id, se il risultato è positivo, mi fai un mappaggio dove nel coder salvi i nuovi valori
         return repo.findById(id).map(coder -> {
             coder.setFirstName(newer.getFirstName());
             coder.setLastName(newer.getLastName());
             coder.setHireDate(newer.getHireDate());
             coder.setSalary(newer.getSalary());
             return repo.save(coder);
+            //se non esiste, mi crei il nuovo coder
         }).orElseGet(() -> {
             newer.setId(id);
             return repo.save(newer);
@@ -83,6 +90,7 @@ public class CoderCtrl {
         try {
             repo.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
+        	//questa eccezione è se cerco di eliminare una riga che non esiste
             LOG.warn("Can't delete coder", ex);
             throw new CoderNotFoundException(id);
         }
